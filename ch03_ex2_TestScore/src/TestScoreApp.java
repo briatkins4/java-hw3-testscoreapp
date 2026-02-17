@@ -1,3 +1,4 @@
+import java.text.NumberFormat;
 import java.util.Scanner;
 
 public class TestScoreApp {
@@ -13,6 +14,8 @@ public class TestScoreApp {
         int scoreCount = 0;
         int testScore = 0;
         Scanner sc = new Scanner(System.in);
+        int max = Integer.MIN_VALUE;
+        int min = Integer.MAX_VALUE;
 
         // get a series of test scores from the user
         while (testScore != 999) {
@@ -20,13 +23,17 @@ public class TestScoreApp {
             System.out.print("Enter score: ");
             String input = sc.nextLine();
             testScore = Integer.parseInt(input);
+            
 
             // accumulate score count and score total
             if (testScore <= 100) {
-                scoreCount = scoreCount + 1;
-                scoreTotal = scoreTotal + testScore;
+                scoreCount ++;
+                scoreTotal += testScore;
+
+                max = Math.max(max, testScore);
+                min = Math.min(min, testScore);
             }
-            else if (testScore != 999) {
+            else {
                 System.out.println("Invalid entry; not counted");
             }
         }
@@ -35,11 +42,16 @@ public class TestScoreApp {
         double averageScore = 0.0;
         if (scoreCount > 0) {
             averageScore = (double) scoreTotal / scoreCount;
+            
         }
+            NumberFormat number = NumberFormat.getNumberInstance();
+            number.setMaximumFractionDigits(1);
         String message = "\n"
                 + "Score count:   " + scoreCount + "\n"
                 + "Score total:   " + scoreTotal + "\n"
-                + "Average score: " + averageScore + "\n";
+                + "Average score: " + number.format(averageScore) + "\n"
+                + "Maximum score: " + max + "\n"
+                + "Minimum score: " + min + "\n";
         System.out.println(message);
     }
 }
